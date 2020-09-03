@@ -1,9 +1,9 @@
 <?php
-    private $_strInsertManyBase = "INSERT INTO `orderdetails`(`orderID`, `commodityID`, `orderCommodityPrice`, `orderCommodityQuantity`) VALUES";for ($i = 0; $i < count($orderDetails); $i++) {
+    private $_strInsertManyBase = "
+    INSERT INTO `orderdetails`(`orderID`, `commodityID`, `orderCommodityPrice`, `orderCommodityQuantity`) VALUES";
+    for ($i = 0; $i < count($orderDetails); $i++) {
     $this->_strInsertManyBase .= "(:orderID{$i},:commodityID{$i},:orderCommodityPrice{$i},:orderCommodityQuantity{$i})";
-    if ($i < (count($orderDetails) - 1)) {
-    $this->_strInsertManyBase .= ",";
-    }
+    
     }foreach ($orderDetails as $key => $item) {
     $sth->bindParam("orderID$key", $orderID);
     $sth->bindParam("commodityID$key", $item->getCommodityID());
