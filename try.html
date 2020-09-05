@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="toggleVisibilityButton" type="button" value="Button1">
+    button
+    </button>
+    <button id="toggleVisibilityButton1" type="button" value="Button1">
+    button
+    </button>
+    
+    <table  id="displaytable" style="display:block" width="100%" cellpadding="1" cellspacing="0" border="3">
+        <tr align="center">
+                <td class="lbl">column1</td>
+                <td class="lbl">column2</td>
+                <td class="lbl">column3</td>
+                </tr>
+        <tr>
+                <td align="center">1</td>
+                <td align="center">2</td>
+                 <td align="center">33</td>
+                </tr>
+                <tr>
+                <td align="center">4</td>
+                <td align="center">5</td>
+               <td align="center">6</td>
+                </tr>
+    </table> 
+    <table  id="displaytable1" style="display:none" width="100%" cellpadding="1" cellspacing="0" border="3">
+        <tr align="center">
+                <td class="lbl">column1</td>
+                <td class="lbl">column2</td>
+                <td class="lbl">column3</td>
+                </tr>
+        <tr>
+                <td align="center">1</td>
+                <td align="center">2</td>
+                 <td align="center">23
+                <tr>
+                <td align="center">4</td>
+                <td align="center">5</td>
+               <td align="center">6</td>
+                </tr>
+    </table> 
+</body>
+<script>
+
+document.getElementById("toggleVisibilityButton").addEventListener("click", function(button) {    
+   if (document.getElementById("displaytable1").style.display === "none") 		     document.getElementById("displaytable").style.display = "block";
+   else (document.getElementById("displaytable1").style.display = "block")
+   			 document.getElementById("displaytable1").style.display = "none";
+         document.getElementById("displaytable").style.display = "block";
+});
+document.getElementById("toggleVisibilityButton1").addEventListener("click", function(button) {    
+   if (document.getElementById("displaytable").style.display === "block") 		     document.getElementById("displaytable").style.display = "none";
+   	 document.getElementById("displaytable1").style.display = "block";
+});
+
+</script>
+</html>

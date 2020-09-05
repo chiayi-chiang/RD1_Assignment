@@ -14,23 +14,6 @@ if (!$con){
   	die("Could not connect: " . mysql_error());
 }
 mysqli_query($con ,"SET NAMES utf8");
-// mysql_close($con);
 
-
-
-// 2. 執行 SQL 敘述
-// $commandText = "select * from weather";
-// $row =mysqli_fetch_assoc(mysqli_query($con, $commandText));
-
-// $row = mysql_fetch_assoc($result);
-// $row = mysql_fetch_row($result);
-// $row = mysql_fetch_array($result);
-
-
-
-// $json = json_encode($row);
-
-// echo $json;
-// var_dump($row);
 
 ?>

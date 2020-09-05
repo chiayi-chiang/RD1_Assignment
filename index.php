@@ -1,8 +1,5 @@
 <?php
     require("database.php");
-    // $url="https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-83112F47-7BD2-42BB-B541-7535D35C5483&format=JSON&elementName=WeatherDescription";
-    // $result = file_get_contents($url);
-    // $obj = json_decode($result, false);//是否轉成關聯是陣列
     if (isset($_POST["aweek"]))//一週
     {
 
@@ -45,22 +42,38 @@
         ";
         
         
+        
+    }
+    if (isset($_POST["rain"]))//未來兩天
+    {
+
+        $localID=$_POST["country"];
+        $sqlcity="select localID,`localName`
+        FROM locationName
+        where localID = '$localID'
+        ";
+        $sqlrow = mysqli_fetch_assoc(mysqli_query($con, $sqlcity));
+        $city=$sqlrow["localName"];
+        $rain="select *
+        from rain
+        where `city`='$city'";
+
+        
+        
     }
     if (isset($_POST["restart"]))//重新整理
     {
 
-        require("start_insertinto.php");
+        require("insql.php");
         
     }
-
-   
     
+
     $id ="
     select `localID`,`localName`
     FROM locationName
     order by  localID
-    ";   
-
+    "; 
             
 ?>
 <!DOCTYPE html>
@@ -102,35 +115,79 @@
             
         </select>地區天氣預報
         </h2>
-       
-        <button type="submit" name="restart" class="btn btn-outline-info btn-md float-right">重新整理</button>
-        <button type="submit" name="aweek" class="btn btn-outline-info btn-md float-right">一週</button>
-        <button type="submit" name="future" class="btn btn-outline-info btn-md float-right">未來兩天</button>
-        <button type="submit" name="now" class="btn btn-outline-info btn-md float-right">當前</button>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>localName</th>
-                    <th>startTime</th>
-                    <th>endTime</th>
-                    <th>value</th>
-                </tr>
-            </thead>
-            <tbody>
         
-            <?php $result = mysqli_query($con, $sql); while ( $row = mysqli_fetch_assoc($result) ) { ?> 
-                <tr>
-                    <td><?= $row["localName"] ?></td>
-                    <td><?= $row["startTime"] ?></td>
-                    <td><?= $row["endTime"] ?></td>
-                    <td><?= $row["value"] ?></td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
+
+            <button type="submit"  id="Button" name="restart" class="btn btn-outline-info btn-md float-right">重新整理</button>
+            <button type="submit" id="Button" name="aweek" class="btn btn-outline-info btn-md float-right">一週</button>
+            <button type="submit" id="Button" name="future" class="btn btn-outline-info btn-md float-right">未來兩天</button>
+            <button type="submit" id="Button" name="now" class="btn btn-outline-info btn-md float-right">當前</button>
+            <button type="submit" id="Button1" name="rain" class="btn btn-outline-info btn-md float-right">雨量</button>
+            
+            <div id=rain style="display:block">
+                <table class="table table-bordered" >
+                <thead>
+                    <tr>
+                        <th>local</th>
+                        <th>1hour</th>
+                        <th>24hour</th>
+                    </tr>
+                </thead>
+                <tbody>
+            
+                <?php $result = mysqli_query($con, $rain); while ( $row = mysqli_fetch_assoc($result) ) { ?> 
+                    <tr>
+                        <td><?= $row["local"] ?></td>
+                        <td><?= $row["1hour"] ?></td>
+                        <td><?= $row["24hour"] ?></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+            </div>
+            
+            <div id=weather style="display:block">
+                <table class="table table-bordered" >
+                    <thead>
+                        <tr>
+                            <th>city</th>
+                            <th>startTime</th>
+                            <th>endTime</th>
+                            <th>value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                
+                    <?php $result = mysqli_query($con, $sql); while ( $row = mysqli_fetch_assoc($result) ) { ?> 
+                        <tr>
+                            <td><?= $row["localName"] ?></td>
+                            <td><?= $row["startTime"] ?></td>
+                            <td><?= $row["endTime"] ?></td>
+                            <td><?= $row["value"] ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+            
+
         </div>
     </form>
 </div>
-
 </body>
+<!-- <script>
+    document.getElementById("Button").addEventListener("click", function(button) {    
+        if (document.getElementById("rain").style.display === "none") 		     
+            document.getElementById("weather").style.display = "block";
+        else (document.getElementById("rain").style.display = "block")
+            document.getElementById("rain").style.display = "none";
+            document.getElementById("weather").style.display = "block";
+    });
+    document.getElementById("Button1").addEventListener("click", function(button) {    
+        if (document.getElementById("weather").style.display === "block") 		     
+            document.getElementById("weather").style.display = "none";
+            document.getElementById("rain").style.display = "block";
+    });
+</script> -->
+
+
 </html>
