@@ -1,9 +1,12 @@
 <?php
     require("database.php");
+
+    $localID=$_POST["country"];
+
     if (isset($_POST["aweek"]))//一週
     {
 
-        $localID=$_POST["country"];
+        
         $sql="select n.localID,`localName`,`startTime`,`endTime`,`value` 
         FROM locationName n,aweek w 
         where n.localID=w.localID 
@@ -15,7 +18,7 @@
     if (isset($_POST["now"]))//當前天氣
     {
 
-        $localID=$_POST["country"];
+        
         $timenow=date('Y-m-d',mktime (date(H)+8, date(i), date(s), date(m), date(d), date(Y)));
         $sql="select n.localID,`localName`,`startTime`,`endTime`,`value` 
         FROM locationName n,aweek w 
@@ -30,7 +33,7 @@
     if (isset($_POST["future"]))//未來兩天
     {
 
-        $localID=$_POST["country"];
+
         $timenow=date('Y-m-d',mktime (date(H)+8, date(i), date(s), date(m), date(d)+1, date(Y)));
         $timestop=date('Y-m-d',mktime (date(H)+8, date(i), date(s), date(m), date(d)+3, date(Y)));
         $sql="select n.localID,`localName`,`startTime`,`endTime`,`value` 
@@ -47,7 +50,7 @@
     if (isset($_POST["rain"]))//未來兩天
     {
 
-        $localID=$_POST["country"];
+        
         $sqlcity="select localID,`localName`
         FROM locationName
         where localID = '$localID'
@@ -69,12 +72,12 @@
     }
     
 
-    $id ="
+    $sqlid ="
     select `localID`,`localName`
     FROM locationName
     order by  localID
     "; 
-            
+    $id = mysqli_query($con, $sqlid); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +102,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
-
 </head>
 <body>
 <div class="form"> 
@@ -107,7 +109,7 @@
         <div class="container">
         <h2 class="float-left">
         <select name="country">
-            <?php $result = mysqli_query($con, $id); while ( $row = mysqli_fetch_assoc($result) ) { ?> 
+            <?php while ($row = mysqli_fetch_assoc($id)) { ?> 
 
                 <option id="localID" name="localID" <?=($localID==$row["localID"])?"selected":""?> value="<?= $row["localID"] ?>"><?= $row["localName"] ?>
         
