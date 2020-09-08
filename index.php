@@ -2,6 +2,13 @@
     require("database.php");
 
     $localID=$_POST["country"];
+    
+    $sqllocation="select *
+        FROM locationName
+        where localID = '$localID' 
+        ";
+    $location = mysqli_query($con, $sqllocation);
+    $rowlocal = mysqli_fetch_assoc($location) ;
 
     if (isset($_POST["aweek"]))//一週
     {
@@ -89,7 +96,7 @@
         .form {
             position: relative;
             z-index: 1;
-            background: #FFFFFF;
+            background: ;
             max-width: 1000px;
             margin: 100px auto 100px;
             padding: 45px;
@@ -107,18 +114,21 @@
 <div class="form"> 
     <form class="member-form" method="post" action="index.php">
         <div class="container">
-        <h2 class="float-left">
+        <h2 class="float-left"><img src="images/<?= $rowlocal["localName"]?>.jpeg" width="150px" height="150px">
         <select name="country">
             <?php while ($row = mysqli_fetch_assoc($id)) { ?> 
 
                 <option id="localID" name="localID" <?=($localID==$row["localID"])?"selected":""?> value="<?= $row["localID"] ?>"><?= $row["localName"] ?>
-        
+                
             <?php } ?>
             
         </select>地區天氣預報
+
+               
+        
         </h2>
         
-
+            
             <button type="submit"  id="Button" name="restart" class="btn btn-outline-info btn-md float-right">重新整理</button>
             <button type="submit" id="Button" name="aweek" class="btn btn-outline-info btn-md float-right">一週</button>
             <button type="submit" id="Button" name="future" class="btn btn-outline-info btn-md float-right">未來兩天</button>
